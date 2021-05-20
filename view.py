@@ -138,14 +138,16 @@ class View:
         player_undo = font.render(player_undo, True, (36, 34, 34))
         color = GREY
         pos = pygame.mouse.get_pos()
-        if 700 + 250 > pos[0] > 700 and 250 + 50 > pos[1] > 250:
+        x_undo = 695
+        y_undo = 250
+        if x_undo + 100 > pos[0] > x_undo and y_undo + 50 > pos[1] > y_undo:
             color = DARK_GREY
-        pygame.draw.rect(win, color, (700, 250, 100, 50))
-        win.blit(player_undo, (710, 270))
-        pygame.draw.line(win, BLACK, (700, 250), (800, 250), 2)
-        pygame.draw.line(win, BLACK, (700, 250), (700, 300), 2)
-        pygame.draw.line(win, BLACK, (700, 300), (800, 300), 2)
-        pygame.draw.line(win, BLACK, (800, 250), (800, 300), 2)
+        pygame.draw.rect(win, color, (x_undo, y_undo, 100, 50))
+        win.blit(player_undo, (x_undo + 10, y_undo + 20))
+        pygame.draw.line(win, BLACK, (x_undo, y_undo), (x_undo + 100, y_undo), 2)
+        pygame.draw.line(win, BLACK, (x_undo, y_undo), (x_undo, y_undo + 50), 2)
+        pygame.draw.line(win, BLACK, (x_undo, y_undo + 50), (x_undo + 100, y_undo + 50), 2)
+        pygame.draw.line(win, BLACK, (x_undo + 100, y_undo), (x_undo + 100, y_undo + 50), 2)
 
     def draw_remain_undoes(self, win, white_player_undo, black_play_undo):
         """"
