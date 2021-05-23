@@ -7,12 +7,6 @@ from ResumableTimer import ResumableTimer
 class Controller:
 
     def __init__(self):
-        self.reset_self_values()
-
-    def reset_self_values(self):
-        """"
-        reset all values for new game
-        """
         self.model = Model()
         self.view = View()
         self.seconds_black = 0
@@ -20,6 +14,12 @@ class Controller:
         self.seconds_white = 0
         self.minutes_white = 0
         self.rematch = False
+
+    def reset_self_values(self):
+        """"
+        reset all values for new game
+        """
+        self.__init__()
 
     def start_game(self):
         """"
