@@ -57,7 +57,8 @@ class Model:
     def select_area(self, row, col):
         """"
         select square and check moves
-        :param row: row location, col: column location
+        :param col: column location
+        :param row: row location
         :return True if can move
         """
         if self.selected_piece and (row, col) in self.valid_moves:
@@ -80,7 +81,8 @@ class Model:
     def check_possible_movement(self, row, col):
         """"
         check if piece can move to the square in (row, col)
-        :param row: new row location, col : new column location
+        :param col: new column location
+        :param row: new row location
         :return: True if can move
         """
         piece = self.get_piece(row, col)  # check if square is empty
@@ -100,9 +102,9 @@ class Model:
     def update_model_location(self, piece, row, col):
         """"
         move piece to new square
+        :param col: new column location
+        :param row: new row location
         :param piece: one piece on board
-        row: new row location
-        col: new column location
         :return:
         """
         # update board array
@@ -157,7 +159,12 @@ class Model:
     def travese_left(self, start, stop, step, color, left, skipped=None):
         """"
         get piece's valid moves to left
-        :param piece: one piece on board
+        :param skipped: pieces list
+        :param left: direction
+        :param color: piece color
+        :param step: piece step
+        :param stop: where piece stop
+        :param start: where piece start
         :return: all piece's valid moves to left
         """
         if skipped is None:
@@ -196,7 +203,12 @@ class Model:
     def travese_right(self, start, stop, step, color, right, skipped=None):
         """"
         get piece's valid moves to right
-        :param piece: one piece on board
+        :param skipped: pieces list
+        :param right: direction
+        :param color: piece color
+        :param step: piece step
+        :param stop: where piece stop
+        :param start: where piece start
         :return: all piece's valid moves to right
         """
         if skipped is None:
@@ -257,6 +269,40 @@ class Model:
             return WHITE
 
         return None
+
+    def check_no_piece_can_move(self, color):
+        """"
+        Check for situation no piece can move in player turn. means automatic lose. checks draw also.
+        :param color: player's turn
+        :return: True if no possible moves to any piece -> auto lose.
+        """
+        if self.white_left == 0 or self.black_left == 0:
+            return False
+
+        white_can_move = False
+        black_can_move = False
+        for row in range(ROWS):
+            for col in range(COLS):
+                piece = self.board[row][col]
+                if piece != 0:
+                    moves = self.get_valid_moves(piece)
+                    if moves:
+                        if piece.color is WHITE:
+                            white_can_move = True
+                        else:
+                            black_can_move = True
+
+        if not black_can_move and not white_can_move:
+            self.white_left = 0
+            self.black_left = 0
+            return True
+
+        if not black_can_move and color == BLACK:
+            self.black_left = 0
+        elif not white_can_move and color == WHITE:
+            self.white_left = 0
+
+        return True
 
     def get_piece(self, row, col):
         return self.board[row][col]
